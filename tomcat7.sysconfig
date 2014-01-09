@@ -1,0 +1,69 @@
+# System-wide configuration file for tomcat6 services
+# This will be sourced by tomcat6 and any secondary service
+# Values will be overridden by service-specific configuration
+# files in /etc/sysconfig
+#
+# Use this one to change default values for all services
+# Change the service specific ones to affect only one service
+# (see, for instance, /etc/sysconfig/tomcat6)
+#
+
+# Where your java installation lives
+#JAVA_HOME="/usr/lib/jvm/java-1.5.0"
+JAVA_HOME="/usr/java/latest"
+
+# Where your tomcat installation lives
+CATALINA_BASE="/home/logi/tomcat7"
+CATALINA_HOME="/home/logi/tomcat7"
+TOMCAT_HOME="/home/logi/tomcat7"
+JASPER_HOME="/home/logi/tomcat7"
+CATALINA_TMPDIR="/home/logi/tomcat7/temp"
+
+TOMCAT_SCRIPT="${TOMCAT_HOME}/bin/catalina.sh"
+
+TOMCAT_LOG="${TOMCAT_HOME}/logs/catalina.out"
+
+# You can pass some parameters to java here if you wish to
+#JAVA_OPTS="-Xminf0.1 -Xmaxf0.3"
+# Java options recommended by Logi for Java containers:
+JAVA_OPTS="-server -d64 -Xmx1280m -XX:MaxPermSize=256m -XX:-DisableExplicitGC -XX:CompileThreshold=8000 -Djava.awt.headless=true"
+# optional Jconsole settings (for monitoring):
+#JAVA_OPTS="${JAVA_OPTS} -Dcom.sun.management.jmxremote -Djava.rmi.server.hostname=10.10.12.31  -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+
+
+# Use JAVA_OPTS to set java.library.path for libtcnative.so
+#JAVA_OPTS="-Djava.library.path=/usr/lib"
+
+# Cannot resolve user database reference - naming-factory-dbcp
+# the real problem is a cnfe that is avoided by configuring
+# the -Djavax.sql.DataSource.Factory. This fixes the rpm install.
+JAVA_OPTS="${JAVA_OPTS} -Djavax.sql.DataSource.Factory=org.apache.commons.dbcp.BasicDataSourceFactory"
+
+# What user should run tomcat
+TOMCAT_USER="logi"
+#TOMCAT_GROUP="${TOMCAT_GROUP:-`id -gn $TOMCAT_USER`}"
+
+# You can change your tomcat locale here
+#LANG="en_US"
+
+# Run tomcat under the Java Security Manager
+SECURITY_MANAGER="false"
+
+# Time to wait in seconds, before killing process
+SHUTDOWN_WAIT="30"
+
+# Whether to annoy the user with "attempting to shut down" messages or not
+SHUTDOWN_VERBOSE=true
+
+# Set the TOMCAT_PID location
+#CATALINA_PID="/var/run/tomcat6.pid"
+CATALINA_PID="${TOMCAT_HOME}/temp/tomcat7.pid"
+
+# Connector port is 8080 for this tomcat6 instance
+#CONNECTOR_PORT="8080"
+CONNECTOR_PORT="9000"
+
+# If you wish to further customize your tomcat environment,
+# put your own definitions here
+# (i.e. LD_LIBRARY_PATH for some jdbc drivers)
+
